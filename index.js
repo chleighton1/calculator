@@ -49,7 +49,12 @@ digits.forEach((button) => {
   // and for each one we add a 'click' listener
   button.addEventListener("click", () => {
     if (readyForNewNumber || display.textContent === "0") {
-      display.textContent = button.id;
+      display.style.color = "#ecf0f1";
+      setTimeout(() => {
+        display.textContent = button.id;
+        display.style.color = "#0e1a3b";
+      }, "100");
+
       readyForNewNumber = false;
     } else {
       display.textContent += button.id;
