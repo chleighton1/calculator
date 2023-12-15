@@ -11,21 +11,67 @@ function multiply(x, y) {
 }
 
 function divide(x, y) {
-  return x / y;
+  return (x / y).toFixed(2);
 }
 
 let numberOne = null;
 let operator = null;
 let numberTwo = null;
+let readyForNewNumber = false;
 
 function operate(x, operator, y) {
-  if (operator === "add") {
-    add(x, y);
+  if (operator == "add") {
+    return add(x, y);
   } else if (operator === "subtract") {
-    subtract(x, y);
+    return subtract(x, y);
   } else if (operator === "multiply") {
-    multiply(x, y);
+    return multiply(x, y);
   } else if (operator === "divide") {
-    divide(x, y);
+    return divide(x, y);
   }
 }
+
+const clear = document.getElementById("clear");
+
+const display = document.getElementById("display");
+
+const digits = document.querySelectorAll("button.digit");
+
+const operators = document.querySelectorAll("button.operator");
+
+const equals = document.getElementById("equals");
+
+clear.addEventListener("click", () => {
+  display.textContent = 0;
+});
+
+digits.forEach((button) => {
+  // and for each one we add a 'click' listener
+  button.addEventListener("click", () => {
+    if (readyForNewNumber || display.textContent === "0") {
+      display.textContent = button.id;
+      readyForNewNumber = false;
+    } else {
+      display.textContent += button.id;
+    }
+  });
+});
+
+operators.forEach((button) => {
+  button.addEventListener("click", () => {
+    numberOne = Number(display.textContent);
+    console.log(numberOne);
+    operator = button.id;
+    console.log(operator);
+    readyForNewNumber = true;
+  });
+});
+
+equals.addEventListener("click", () => {
+  numberTwo = Number(display.textContent);
+  console.log(numberOne);
+  console.log(numberTwo);
+  console.log(operator);
+  display.textContent = operate(numberOne, operator, numberTwo);
+  readyForNewNumber = true;
+});
